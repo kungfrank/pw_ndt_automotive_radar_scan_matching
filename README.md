@@ -83,14 +83,19 @@ Then you should see this in rviz:
 - blue arrows: inliers (static objects)
 - red arrows: outliers rejected by RANSAC (moving objects or noises)
 
-### Visualize Normal Distribution Map and Probabilistic Submap
+### Visualize Probabilistic Submap and Normal Distribution Map
 ```
 $ python radar_odometry/src/viz/viz_sd_from_sparse.py
 $ python radar_odometry/src/viz/viz_sparse_ndmap.py
 ```
 The result should look like this.
 
+Probabilistic Submap:
+
 <img src="img/probabilistic_submap_example.png" alt="drawing" style="width:500px;"/>
+
+Normal Distribution Map:
+
 <img src="img/ndmap_example.png" alt="drawing" style="width:500px;"/>
 
 
