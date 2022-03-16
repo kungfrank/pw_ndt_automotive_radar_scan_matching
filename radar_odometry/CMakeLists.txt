@@ -56,8 +56,8 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 #target_link_libraries(compress_read ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 
 ##=== Instantaneous ego-motion estimation using multiple Doppler radars ===#
-#add_executable(radar_ego_motion src/radar_ego_motion.cpp)
-#target_link_libraries(radar_ego_motion ${catkin_LIBRARIES})
+add_executable(radar_ego_motion src/radar_ego_motion.cpp)
+target_link_libraries(radar_ego_motion ${catkin_LIBRARIES} pcl_visualization)
 
 #add_executable(radar_ego_motion_ack src/radar_ego_motion_ack.cpp)
 #target_link_libraries(radar_ego_motion_ack ${catkin_LIBRARIES})
