@@ -13,11 +13,6 @@ set(CMAKE_BUILD_TYPE Release)
 set (OpenCV_DIR /opt/ros/kinetic/share/OpenCV-3.3.1-dev)
 find_package( OpenCV REQUIRED )
 
-#find_package(PCL 1.3 REQUIRED)
-#include_directories(${PCL_INCLUDE_DIRS})
-#link_directories(${PCL_LIBRARY_DIRS})
-#add_definitions(${PCL_DEFINITIONS})
-
 find_package(catkin REQUIRED COMPONENTS
   pcl_conversions
   pcl_ros
@@ -28,11 +23,6 @@ find_package(catkin REQUIRED COMPONENTS
   conti_radar
   cv_bridge
   ro_msg
-  #OpenCV
-  ndt_registration
-  #ndt_map
-  #ndt_generic
-
   sensor_msgs
   image_transport
 )
@@ -56,17 +46,17 @@ include_directories(
 )
 include_directories(${OpenCV_INCLUDE_DIRS})
 
-#=== RO Cen 1 ===#
-add_executable(da src/discriptor_da.cpp)
-target_link_libraries(da ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+##=== RO Cen 1 ===#
+#add_executable(da src/discriptor_da.cpp)
+#target_link_libraries(da ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 
-##temp##
-add_executable(compress_read src/compress_read.cpp)
-target_link_libraries(compress_read ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+###temp##
+#add_executable(compress_read src/compress_read.cpp)
+#target_link_libraries(compress_read ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 
-#=== Instantaneous ego-motion estimation using multiple Doppler radars ===#
-add_executable(radar_ego_motion src/radar_ego_motion.cpp)
-target_link_libraries(radar_ego_motion ${catkin_LIBRARIES})
+##=== Instantaneous ego-motion estimation using multiple Doppler radars ===#
+#add_executable(radar_ego_motion src/radar_ego_motion.cpp)
+#target_link_libraries(radar_ego_motion ${catkin_LIBRARIES})
 
 #add_executable(radar_ego_motion_ack src/radar_ego_motion_ack.cpp)
 #target_link_libraries(radar_ego_motion_ack ${catkin_LIBRARIES})
@@ -128,47 +118,45 @@ add_executable(stack_gnd_costmap src/stack_gnd_costmap.cpp)
 target_link_libraries(stack_gnd_costmap ${catkin_LIBRARIES})
 
 
-add_executable(radar_scan_to_img src/radar_scan_to_img.cpp)
-target_link_libraries(radar_scan_to_img ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+#add_executable(radar_scan_to_img src/radar_scan_to_img.cpp)
+#target_link_libraries(radar_scan_to_img ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 
 
 #=== LO ===#
-add_executable(lidar_preprocess src/lo/lidar_preprocess.cpp)
-target_link_libraries(lidar_preprocess ${catkin_LIBRARIES})
-add_executable(lidar_odometry src/lo/lidar_odometry.cpp)
-target_link_libraries(lidar_odometry ${catkin_LIBRARIES})
+#add_executable(lidar_preprocess src/lo/lidar_preprocess.cpp)
+#target_link_libraries(lidar_preprocess ${catkin_LIBRARIES})
+#add_executable(lidar_odometry src/lo/lidar_odometry.cpp)
+#target_link_libraries(lidar_odometry ${catkin_LIBRARIES})
 
 #=== Probabilistic ego-motion estimation using multiple automotive radar sensors ===#
-add_executable(conti_joint_doppler_weight src/joint_doppler_ndt/conti_joint_doppler_weight.cpp)
-target_link_libraries(conti_joint_doppler_weight ${catkin_LIBRARIES})
-add_executable(joint_doppler_ndt src/joint_doppler_ndt/joint_doppler_ndt.cpp)
-target_link_libraries(joint_doppler_ndt ${catkin_LIBRARIES})
+#add_executable(conti_joint_doppler_weight src/joint_doppler_ndt/conti_joint_doppler_weight.cpp)
+#target_link_libraries(conti_joint_doppler_weight ${catkin_LIBRARIES})
+#add_executable(joint_doppler_ndt src/joint_doppler_ndt/joint_doppler_ndt.cpp)
+#target_link_libraries(joint_doppler_ndt ${catkin_LIBRARIES})
 
 
+#add_executable(ndt_test src/ndt_test.cpp)
+#target_link_libraries(ndt_test ${catkin_LIBRARIES})
 
+#find_package(CUDA REQUIRED)
 
-add_executable(ndt_test src/ndt_test.cpp)
-target_link_libraries(ndt_test ${catkin_LIBRARIES})
+#find_package(ndt_gpu REQUIRED)
+#include_directories(${ndt_gpu_INCLUDE_DIRS})
+#link_directories(${ndt_gpu_INCLUDE_DIRS})
 
-find_package(CUDA REQUIRED)
-
-find_package(ndt_gpu REQUIRED)
-include_directories(${ndt_gpu_INCLUDE_DIRS})
-link_directories(${ndt_gpu_INCLUDE_DIRS})
-
-add_executable(ndt_gpu_test src/ndt_gpu_test.cpp)
-target_link_libraries(ndt_gpu_test ${catkin_LIBRARIES} ${ndt_gpu_LIBRARIES})
-target_include_directories(ndt_gpu_test PRIVATE ${CUDA_INCLUDE_DIRS})
+#add_executable(ndt_gpu_test src/ndt_gpu_test.cpp)
+#target_link_libraries(ndt_gpu_test ${catkin_LIBRARIES} ${ndt_gpu_LIBRARIES})
+#target_include_directories(ndt_gpu_test PRIVATE ${CUDA_INCLUDE_DIRS})
 
 ###########################################################################
 
-find_package(CUDA REQUIRED)
+#find_package(CUDA REQUIRED)
 
-set(CUDA_ARCH "sm_52")
-set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-arch=${CUDA_ARCH};-std=c++11;--ptxas-options=-v)
+#set(CUDA_ARCH "sm_52")
+#set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-arch=${CUDA_ARCH};-std=c++11;--ptxas-options=-v)
 
-CUDA_ADD_EXECUTABLE(cuda_test src/cuda_test.cu)
-target_link_libraries(cuda_test ${catkin_LIBRARIES})
+#CUDA_ADD_EXECUTABLE(cuda_test src/cuda_test.cu)
+#target_link_libraries(cuda_test ${catkin_LIBRARIES})
 
 
 

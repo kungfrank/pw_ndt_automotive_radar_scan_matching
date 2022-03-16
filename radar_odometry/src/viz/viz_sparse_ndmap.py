@@ -237,8 +237,8 @@ def callback(pc_msg, cov_msg):
   cv2.namedWindow('ndmap', cv2.WINDOW_NORMAL)
   cv2.imshow('ndmap', ndmap)
 
-  cv2.imwrite('/home/joinet/ro_viz/ndmap_from_sparse_img/sec3_s3_g7_e20_' + '/sparse_ndmap'+str(index)+'.jpg', ndmap)
-  cv2.waitKey(5000)
+  #cv2.imwrite('/home/joinet/ro_viz/ndmap_from_sparse_img/sec3_s3_g7_e20_' + '/sparse_ndmap'+str(index)+'.jpg', ndmap)
+  cv2.waitKey(0)
     
     
     

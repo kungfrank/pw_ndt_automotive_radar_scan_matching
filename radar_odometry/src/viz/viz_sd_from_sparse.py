@@ -94,13 +94,13 @@ def callback(pc_msg, cov_msg):
   #  print " x : %.3f  y: %.3f, s_xx: %.3f  s_xy: %.3f  s_yx: %.3f s_yy: %.3f" %(x_, y_, sigma_xx,sigma_xy,sigma_yx,sigma_yy)
 
   # Our 2-dimensional distribution will be over variables X and Y
-  #N = 350 #350
-  #X = np.linspace(-75, 75, N)
-  #Y = np.linspace(-75, 75, N)
+  N = 350 #350
+  X = np.linspace(-75, 75, N)
+  Y = np.linspace(-75, 75, N)
 
-  N = 500 #350
-  X = np.linspace(-75, -50, N)
-  Y = np.linspace(0, 25, N)
+  #N = 500 #350
+  #X = np.linspace(-75, -50, N)
+  #Y = np.linspace(0, 25, N)
   X, Y = np.meshgrid(X, Y)
 
   # Pack X and Y into a single 3-dimensional array
@@ -116,7 +116,7 @@ def callback(pc_msg, cov_msg):
     #print(i)
     Mean = np.array([pointcloud[i][0], pointcloud[i][1]])
     #print Mean[0], Mean[1]
-    if Mean[0]<-50 and Mean[0]>-75 and Mean[1]>0 and Mean[1]<25:
+    if Mean[0]<75 and Mean[0]>-75 and Mean[1]>-75 and Mean[1]<75:
       Sigma = np.array([[pointcloud_cov[i][0], pointcloud_cov[i][1]], [pointcloud_cov[i][2], pointcloud_cov[i][3]]])
       rv = multivariate_normal(Mean, Sigma)
       Z = rv.pdf(pos)
@@ -150,31 +150,31 @@ def callback(pc_msg, cov_msg):
   Z_all_norm = Z_all_norm.astype('float64')  #uint8
   #print(Z_all_norm.max())
   #print(Z_all_norm.min())
-  print(Z_all_norm.dtype)
+  #print(Z_all_norm.dtype)
   #Z_all = np.expand_dims(Z_all, axis=2)
   #print(Z_all.shape)
   #cv_img = cv2.cvtColor(Z_all_norm, cv2.COLOR_GRAY2BGR)
-  cv2.namedWindow('Image', cv2.WINDOW_NORMAL)
-  cv2.imshow('Image', Z_all_norm*2)
+  #cv2.namedWindow('Image', cv2.WINDOW_NORMAL)
+  #cv2.imshow('Image', Z_all_norm*2)
 
   Z_all_norm = Z_all_norm * 255.0
   Z_all_norm = Z_all_norm.astype('uint8')
   cv2.namedWindow('Image_uint8', cv2.WINDOW_NORMAL)
   cv2.imshow('Image_uint8', Z_all_norm)
 
-  cv2.imwrite('/home/joinet/ro_viz/sd_from_sparse_img/sec2_s3_small_N500/' + str(index) + '.png', Z_all_norm)
-  cv2.waitKey(100)
+  #cv2.imwrite('/home/joinet/ro_viz/sd_from_sparse_img/sec2_s3_small_N500/' + str(index) + '.png', Z_all_norm)
+  cv2.waitKey(0)
 
 
   ### Generate semi-dense plot in paper ###
-  '''
+  '''  '''
   Z_all[Z_all >= 5] = 5 #55
   gaussian_img = plt.contourf(X, Y, Z_all, 70, cmap = 'gray') #viridis jet
   plt.xticks(())
   plt.yticks(())
   plt.show()
   plt.close()
-  '''
+
 
   '''
   Z_all[Z_all >= 85] = 85

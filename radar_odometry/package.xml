@@ -53,19 +53,22 @@
   <build_depend>rospy</build_depend>
   <build_depend>std_msgs</build_depend>
   <build_depend>cv_bridge</build_depend>
-	<build_depend>ndt_gpu</build_depend>
+	<build_depend>conti_radar</build_depend>
+	<build_depend>ro_msg</build_depend>
 
   <build_export_depend>roscpp</build_export_depend>
   <build_export_depend>rospy</build_export_depend>
   <build_export_depend>std_msgs</build_export_depend>
   <build_export_depend>cv_bridge</build_export_depend>
-	<build_export_depend>ndt_gpu</build_export_depend>
+	<build_export_depend>conti_radar</build_export_depend>
+	<build_depend>ro_msg</build_depend>
 
   <exec_depend>roscpp</exec_depend>
   <exec_depend>rospy</exec_depend>
   <exec_depend>std_msgs</exec_depend>
   <exec_depend>cv_bridge</exec_depend>
-  <exec_depend>ndt_gpu</exec_depend>
+  <exec_depend>conti_radar</exec_depend>
+	<build_depend>ro_msg</build_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>

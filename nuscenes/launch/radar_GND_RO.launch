@@ -29,7 +29,7 @@
 -->
 
 
-		<node pkg="radar_odometry" type="conti_stack_cov_with_p_unc" name="conti_stack_cov10" output="screen">
+    <node pkg="radar_odometry" type="conti_stack_cov_with_p_unc" name="conti_stack_cov" output="screen">
       <remap from="/vel" to="/vel"/>
   	  <param name="/stack_frame_num" value="5"/>
 		</node>
@@ -44,9 +44,9 @@
 
 
     <node pkg="radar_odometry" type="stack_ndt_d2d_2d" name="pcl_ndt_stack1" output="screen">
-      <remap from="/input_pc" to="conti_stack_cov10/radar_stack"/>
-      <remap from="/radar_stack_cov" to="conti_stack_cov10/radar_stack_cov"/>
-      <remap from="/radar_stack_index" to="conti_stack_cov10/radar_stack_index"/>
+      <remap from="/input_pc" to="conti_stack_cov/radar_stack"/>
+      <remap from="/radar_stack_cov" to="conti_stack_cov/radar_stack_cov"/>
+      <remap from="/radar_stack_index" to="conti_stack_cov/radar_stack_index"/>
       <param name="/msg_flt_buffer" value="1000"/>
 
 			<param name="/ndt2d_max_it_" value="30"/>
@@ -58,8 +58,6 @@
       <param name="/ndt2d_step_size_theta_" value="0.25"/>
       <param name="/viz" value="false"/>
     </node>
-
-
 
 <!--
     <node pkg="radar_odometry" type="stack_ndt_d2d_2d" name="pcl_ndt_stack1" output="screen">
