@@ -90,7 +90,7 @@ $ python radar_odometry/src/viz/viz_sparse_ndmap.py
 ```
 The result should look like this.
 
-<img src="img/Probabilistic_submap_example.png" alt="drawing" style="width:500px;"/>
+<img src="img/probabilistic_submap_example.png" alt="drawing" style="width:500px;"/>
 <img src="img/ndmap_example.png" alt="drawing" style="width:500px;"/>
 
 
