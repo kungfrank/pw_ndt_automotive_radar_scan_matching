@@ -1,0 +1,11 @@
+<launch>
+
+  <param name="use_sim_time" value="true" />
+
+
+	<node pkg="tf2_ros" type="static_transform_publisher" name="tf_br_c_to_f" args="3.41 0 0 0 0 0 /curr_car /curr_nuscenes_radar_front" />
+	<node pkg="tf2_ros" type="static_transform_publisher" name="tf_br_c_to_fl" args="2.42 0.8 0 1.542 0 0 /curr_car /curr_nuscenes_radar_front_left" />
+	<node pkg="tf2_ros" type="static_transform_publisher" name="tf_br_c_to_fr" args="2.42 -0.8 0 -1.588 0 0 /curr_car /curr_nuscenes_radar_front_right" />
+	<node pkg="tf2_ros" type="static_transform_publisher" name="tf_br_c_to_bl" args="-0.562 0.628 0 3.044 0 0 /curr_car /curr_nuscenes_radar_back_left" />
+	<node pkg="tf2_ros" type="static_transform_publisher" name="tf_br_c_to_br" args="-0.562 -0.618 0 -3.074 0 0 /curr_car /curr_nuscenes_radar_back_right" />
+</launch>
