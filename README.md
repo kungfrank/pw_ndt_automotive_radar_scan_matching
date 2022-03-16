@@ -23,7 +23,11 @@ Python2.7
 # Getting Started
 
 ### Download nuScenes Dataset in Rosbag Format
-You can download the sample data from:
+You can download the sample data from our server: 
+[rosbag1](http://ee904-3.ddns.net:8053/sharing/VPe5tmq8m), 
+[rosbag2](http://ee904-3.ddns.net:8053/sharing/MirOEhYVA), 
+[rosbag3](http://ee904-3.ddns.net:8053/sharing/oluWKc8d5), 
+[rosbag4](http://ee904-3.ddns.net:8053/sharing/r2V0N2S8M)
 
 ### Compile the Package
 ```
