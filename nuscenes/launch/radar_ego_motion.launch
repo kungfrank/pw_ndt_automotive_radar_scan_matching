@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+
+<launch>
+
+    <node pkg="nuscenes" type="gt_odom_publisher" name="gt_odom_publisher" output="log"> </node>
+
+    <node pkg="nuscenes" type="origin_tf_publisher" name="origin_tf_publisher" output="log"> </node>
+
+    <node pkg="radar_odometry" type="radar_ego_motion" name="radar_ego_motion" output="log"> </node>
+    <node pkg="radar_odometry" type="radar_ego_motion_valid" name="radar_ego_motion_valid" output="log"> </node>
+    <node pkg="radar_odometry" type="radar_ego_motion_valid2" name="radar_ego_motion_valid2" output="log"> </node>
+    <node pkg="radar_odometry" type="radar_ego_motion_valid3" name="radar_ego_motion_valid3" output="log"> </node>
+
+    <node pkg="radar_odometry" type="vel_intgration" name="vel_intgration" output="log">
+        <remap from="/gt_vel" to="/vel"/>
+        <remap from="/gt_ego_motion" to="/radar_ego_motion"/>
+    </node>
+    <node pkg="radar_odometry" type="vel_intgration" name="vel_intgration_val" output="log">
+        <remap from="/gt_vel" to="/vel_valid"/>
+        <remap from="/gt_ego_motion" to="/radar_ego_motion_val"/>
+    </node>
+    <node pkg="radar_odometry" type="vel_intgration" name="vel_intgration_val2" output="log">
+        <remap from="/gt_vel" to="/vel_valid2"/>
+        <remap from="/gt_ego_motion" to="/radar_ego_motion_val2"/>
+    </node>
+    <node pkg="radar_odometry" type="vel_intgration" name="vel_intgration_val3" output="log">
+        <remap from="/gt_vel" to="/vel_valid3"/>
+        <remap from="/gt_ego_motion" to="/radar_ego_motion_val3"/>
+    </node>
+
+		<node pkg="radar_odometry" type="odom_error_cal" name="odom_error_cal" output="screen">
+			<remap from="/radar_ego_motion" to="/radar_ego_motion"/>
+      <param name="/frame_count_num" value="20"/>
+      <param name="/msg_flt_buffer" value="200"/>
+		</node>
+    <node pkg="radar_odometry" type="error_mean" name="error_mean" output="screen">
+        <remap from="/error" to="/odom_error_cal/interval_odom_error"/>
+    </node>
+
+		<node pkg="radar_odometry" type="odom_error_cal" name="odom_error_cal_val" output="screen">
+			<remap from="/radar_ego_motion" to="/radar_ego_motion_val"/>
+      <param name="/frame_count_num" value="20"/>
+      <param name="/msg_flt_buffer" value="200"/>
+		</node>
+    <node pkg="radar_odometry" type="error_mean" name="error_mean_val" output="screen">
+        <remap from="/error" to="/odom_error_cal_val/interval_odom_error"/>
+    </node>
+
+		<node pkg="radar_odometry" type="odom_error_cal" name="odom_error_cal_val2" output="screen">
+			<remap from="/radar_ego_motion" to="/radar_ego_motion_val2"/>
+      <param name="/frame_count_num" value="20"/>
+      <param name="/msg_flt_buffer" value="200"/>
+		</node>
+    <node pkg="radar_odometry" type="error_mean" name="error_mean_val2" output="screen">
+        <remap from="/error" to="/odom_error_cal_val2/interval_odom_error"/>
+    </node>
+
+		<node pkg="radar_odometry" type="odom_error_cal" name="odom_error_cal_val3" output="screen">
+			<remap from="/radar_ego_motion" to="/radar_ego_motion_val3"/>
+      <param name="/frame_count_num" value="20"/>
+      <param name="/msg_flt_buffer" value="200"/>
+		</node>
+    <node pkg="radar_odometry" type="error_mean" name="error_mean_val3" output="screen">
+        <remap from="/error" to="/odom_error_cal_val3/interval_odom_error"/>
+    </node>
+
+</launch>

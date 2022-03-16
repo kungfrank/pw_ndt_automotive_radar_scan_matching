@@ -1,0 +1,71 @@
+<launch>
+
+	<node pkg="tf2_ros" type="static_transform_publisher" name="tf_br_c_to_f" args="3.41 0 0 0 0 0 /curr_car /curr_nuscenes_radar_front" />
+	<node pkg="tf2_ros" type="static_transform_publisher" name="tf_br_c_to_fl" args="2.42 0.8 0 1.542 0 0 /curr_car /curr_nuscenes_radar_front_left" />
+	<node pkg="tf2_ros" type="static_transform_publisher" name="tf_br_c_to_fr" args="2.42 -0.8 0 -1.588 0 0 /curr_car /curr_nuscenes_radar_front_right" />
+	<node pkg="tf2_ros" type="static_transform_publisher" name="tf_br_c_to_bl" args="-0.562 0.628 0 3.044 0 0 /curr_car /curr_nuscenes_radar_back_left" />
+	<node pkg="tf2_ros" type="static_transform_publisher" name="tf_br_c_to_br" args="-0.562 -0.618 0 -3.074 0 0 /curr_car /curr_nuscenes_radar_back_right" />
+
+  <node pkg="nuscenes" type="origin_tf_publisher" name="origin_tf_publisher" output="log"> </node>
+  <node pkg="nuscenes" type="gt_odom_publisher" name="gt_odom_publisher" output="screen"> </node>
+	<node pkg="radar_odometry" type="radar_ego_motion" name="radar_ego_motion" output="log"> </node>
+
+  <node pkg="radar_odometry" type="vel_intgration" name="vel_intgration" output="log">
+      <remap from="/gt_vel" to="/vel"/>
+      <remap from="/gt_ego_motion" to="/radar_ego_motion"/>
+  </node>
+
+	<node pkg="radar_odometry" type="conti_stack_cov_with_p_unc" name="conti_stack_cov" output="screen">
+    <remap from="/vel" to="/vel"/>
+    <param name="/stack_frame_num" value="3"/>
+	</node>
+<!--
+  <node pkg="radar_odometry" type="conti_merge_td_comp" name="conti_merge_td_comp" output="screen" respawn="true"> 
+    <remap from="/radar_front_inlier" to="/radar_front"/>
+    <remap from="/radar_front_left_inlier" to="/radar_front_left"/>
+    <remap from="/radar_front_right_inlier" to="/radar_front_right"/>
+    <remap from="/radar_back_left_inlier" to="/radar_back_left"/>
+    <remap from="/radar_back_right_inlier" to="/radar_back_right"/>
+
+    <remap from="conti_merge_td_comp/radar_inlier_valid" to="/radar_inlier_valid_raw"/>
+    <remap from="conti_merge_td_comp/radar_inlier_invalid" to="/radar_inlier_invalid_raw"/>
+	</node>
+-->
+
+<!--
+  <node pkg="nuscenes" type="conti_merge" name="conti_merge" output="screen" respawn="true"> </node>
+  <node pkg="oxford" type="viz_nu_ro_from_kitti_to_tf" name="viz_nu_ro_from_kitti_to_tf" output="screen" respawn="true"> </node>
+-->
+
+  <!-- radar_viz 
+  <node ns="radar_viz_ns" pkg="nuscenes" type="radar_viz" name="f_radar_viz" output="screen">
+      <param name="radar_frame" value="/curr_nuscenes_radar_front"/>
+      <remap from="/radar_topic" to="/radar_front"/>
+  </node>
+  <node ns="radar_viz_ns" pkg="nuscenes" type="radar_viz" name="fl_radar_viz" output="screen">
+      <param name="radar_frame" value="/curr_nuscenes_radar_front_left"/>
+      <remap from="/radar_topic" to="/radar_front_left"/>
+  </node>
+  <node ns="radar_viz_ns" pkg="nuscenes" type="radar_viz" name="fr_radar_viz" output="screen">
+      <param name="radar_frame" value="/curr_nuscenes_radar_front_right"/>
+      <remap from="/radar_topic" to="/radar_front_right"/>
+  </node>
+  <node ns="radar_viz_ns" pkg="nuscenes" type="radar_viz" name="bl_radar_viz" output="screen">
+      <param name="radar_frame" value="/curr_nuscenes_radar_back_left"/>
+      <remap from="/radar_topic" to="/radar_back_left"/>
+  </node>
+  <node ns="radar_viz_ns" pkg="nuscenes" type="radar_viz" name="br_radar_viz" output="screen">
+      <param name="radar_frame" value="/curr_nuscenes_radar_back_right"/>
+      <remap from="/radar_topic" to="/radar_back_right"/>
+  </node>	
+	-->
+
+
+
+
+
+
+
+
+
+</launch>

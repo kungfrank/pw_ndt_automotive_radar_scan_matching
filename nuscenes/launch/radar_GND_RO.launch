@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+
+<launch>
+
+    <node pkg="nuscenes" type="gt_odom_publisher" name="gt_odom_publisher" output="screen"> </node>
+
+    <node pkg="nuscenes" type="origin_tf_publisher" name="origin_tf_publisher" output="log"> </node>
+
+		<node pkg="radar_odometry" type="radar_ego_motion" name="radar_ego_motion" output="log"> </node>
+
+    <node pkg="radar_odometry" type="vel_intgration" name="vel_intgration" output="log">
+        <remap from="/gt_vel" to="/vel"/>
+        <remap from="/gt_ego_motion" to="/radar_ego_motion"/>
+    </node>
+<!--
+		<node pkg="radar_odometry" type="conti_stack_cov" name="conti_stack_cov" output="screen">
+      <remap from="/vel" to="/vel"/>
+  	  <param name="/stack_frame_num" value="3"/>
+		</node>
+-->
+
+<!--
+		<node pkg="radar_odometry" type="stack_icp" name="pcl_icp_stack10" output="screen">
+				  <remap from="/input_pc" to="conti_stack_cov10/radar_stack"/>
+				  <param name="/icp_max_dis" value="2.5"/>
+				  <param name="/icp_iteration" value="100"/>
+				  <param name="/msg_flt_buffer" value="2000"/>
+		</node>
+-->
+
+
+		<node pkg="radar_odometry" type="conti_stack_cov_with_p_unc" name="conti_stack_cov10" output="screen">
+      <remap from="/vel" to="/vel"/>
+  	  <param name="/stack_frame_num" value="5"/>
+		</node>
+
+
+<!--
+		<node pkg="radar_odometry" type="conti_merge_td_comp" name="conti_merge_td_comp1" output="screen">
+      <remap from="/vel" to="/vel"/>
+  	  <param name="/stack_frame_num" value="10"/>
+		</node>
+-->
+
+
+    <node pkg="radar_odometry" type="stack_ndt_d2d_2d" name="pcl_ndt_stack1" output="screen">
+      <remap from="/input_pc" to="conti_stack_cov10/radar_stack"/>
+      <remap from="/radar_stack_cov" to="conti_stack_cov10/radar_stack_cov"/>
+      <remap from="/radar_stack_index" to="conti_stack_cov10/radar_stack_index"/>
+      <param name="/msg_flt_buffer" value="1000"/>
+
+			<param name="/ndt2d_max_it_" value="30"/>
+      <param name="/ndt2d_eps_" value="0.000001"/>
+
+      <param name="/ndt2d_grid_step_" value="3"/> <!--1.5-->
+      <param name="/ndt2d_step_size_x_" value="0.25"/>
+      <param name="/ndt2d_step_size_y_" value="0.25"/>
+      <param name="/ndt2d_step_size_theta_" value="0.25"/>
+      <param name="/viz" value="false"/>
+    </node>
+
+
+
+<!--
+    <node pkg="radar_odometry" type="stack_ndt_d2d_2d" name="pcl_ndt_stack1" output="screen">
+      <remap from="/input_pc" to="conti_stack_cov10/radar_stack"/>
+      <remap from="/radar_stack_cov" to="conti_stack_cov10/radar_stack_cov"/>
+      <param name="/msg_flt_buffer" value="1000"/>
+
+			<param name="/ndt2d_max_it_" value="10"/>
+      <param name="/ndt2d_eps_" value="0"/>
+
+      <param name="/ndt2d_grid_step_" value="1.5"/>
+      <param name="/ndt2d_step_size_x_" value="0.3"/>
+      <param name="/ndt2d_step_size_y_" value="0.3"/>
+      <param name="/ndt2d_step_size_theta_" value="0.3"/>
+      <param name="/viz" value="false"/>
+    </node>
+-->
+
+		<node pkg="radar_odometry" type="odom_error_cal" name="odom_error_cal_ndt_stack" output="screen">
+			<remap from="/radar_ego_motion" to="/pcl_ndt_stack1/ndt_d2d_odom"/>
+      <param name="/frame_count_num" value="10"/>
+      <param name="/msg_flt_buffer" value="1000"/>
+		</node>
+
+    <node pkg="radar_odometry" type="error_mean" name="error_mean_stack" output="screen">
+        <remap from="/error" to="/odom_error_cal_ndt_stack/interval_odom_error"/>
+    </node>
+
+<!--
+		<node pkg="radar_odometry" type="kitti_odom_file_generator" name="kitti_odom_file_generator" output="screen">
+			<remap from="/radar_ego_motion" to="/pcl_ndt_stack1/ndt_d2d_odom"/>
+			<param name="/msg_flt_buffer" value="1000"/>
+		</node>
+-->
+
+</launch>

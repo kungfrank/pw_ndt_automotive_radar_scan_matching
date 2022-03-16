@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+
+<launch>
+    <arg name="use_rviz" default="false" />
+		<param name="publish_frequency" type="double" value="10.0" />
+    <!-- radar_viz -->
+    <node ns="radar_viz_ns" pkg="nuscenes" type="radar_viz" name="f_radar_viz" output="screen">
+        <param name="radar_frame" value="/nuscenes_radar_front"/>
+        <remap from="/radar_topic" to="/radar_front"/>
+    </node>
+    <node ns="radar_viz_ns" pkg="nuscenes" type="radar_viz" name="fl_radar_viz" output="screen">
+        <param name="radar_frame" value="/nuscenes_radar_front_left"/>
+        <remap from="/radar_topic" to="/radar_front_left"/>
+    </node>
+    <node ns="radar_viz_ns" pkg="nuscenes" type="radar_viz" name="fr_radar_viz" output="screen">
+        <param name="radar_frame" value="/nuscenes_radar_front_right"/>
+        <remap from="/radar_topic" to="/radar_front_right"/>
+    </node>
+    <node ns="radar_viz_ns" pkg="nuscenes" type="radar_viz" name="bl_radar_viz" output="screen">
+        <param name="radar_frame" value="/nuscenes_radar_back_left"/>
+        <remap from="/radar_topic" to="/radar_back_left"/>
+    </node>
+    <node ns="radar_viz_ns" pkg="nuscenes" type="radar_viz" name="br_radar_viz" output="screen">
+        <param name="radar_frame" value="/nuscenes_radar_back_right"/>
+        <remap from="/radar_topic" to="/radar_back_right"/>
+    </node>
+
+    <!-- outlier_radar_viz -->
+    <node ns="outlier_radar_viz_ns" pkg="nuscenes" type="radar_viz_2" name="f_radar_viz" output="screen">
+        <param name="radar_frame" value="/nuscenes_radar_front"/>
+        <remap from="/radar_topic" to="/radar_front_outlier_valid"/>
+    </node>
+    <node ns="outlier_radar_viz_ns" pkg="nuscenes" type="radar_viz_2" name="fl_radar_viz" output="screen">
+        <param name="radar_frame" value="/nuscenes_radar_front_left"/>
+        <remap from="/radar_topic" to="/radar_front_left_outlier_valid"/>
+    </node>
+    <node ns="outlier_radar_viz_ns" pkg="nuscenes" type="radar_viz_2" name="fr_radar_viz" output="screen">
+        <param name="radar_frame" value="/nuscenes_radar_front_right"/>
+        <remap from="/radar_topic" to="/radar_front_right_outlier_valid"/>
+    </node>
+    <node ns="outlier_radar_viz_ns" pkg="nuscenes" type="radar_viz_2" name="bl_radar_viz" output="screen">
+        <param name="radar_frame" value="/nuscenes_radar_back_left"/>
+        <remap from="/radar_topic" to="/radar_back_left_outlier_valid"/>
+    </node>
+    <node ns="outlier_radar_viz_ns" pkg="nuscenes" type="radar_viz_2" name="br_radar_viz" output="screen">
+        <param name="radar_frame" value="/nuscenes_radar_back_right"/>
+        <remap from="/radar_topic" to="/radar_back_right_outlier_valid"/>
+    </node>
+
+    <!-- inlier_radar_viz -->
+    <node ns="inlier_radar_viz_ns" pkg="nuscenes" type="radar_viz_3" name="f_radar_viz" output="screen">
+        <param name="radar_frame" value="/nuscenes_radar_front"/>
+        <remap from="/radar_topic" to="/radar_front_inlier_valid"/>
+    </node>
+    <node ns="inlier_radar_viz_ns" pkg="nuscenes" type="radar_viz_3" name="fl_radar_viz" output="screen">
+        <param name="radar_frame" value="/nuscenes_radar_front_left"/>
+        <remap from="/radar_topic" to="/radar_front_left_inlier_valid"/>
+    </node>
+    <node ns="inlier_radar_viz_ns" pkg="nuscenes" type="radar_viz_3" name="fr_radar_viz" output="screen">
+        <param name="radar_frame" value="/nuscenes_radar_front_right"/>
+        <remap from="/radar_topic" to="/radar_front_right_inlier_valid"/>
+    </node>
+    <node ns="inlier_radar_viz_ns" pkg="nuscenes" type="radar_viz_3" name="bl_radar_viz" output="screen">
+        <param name="radar_frame" value="/nuscenes_radar_back_left"/>
+        <remap from="/radar_topic" to="/radar_back_left_inlier_valid"/>
+    </node>
+    <node ns="inlier_radar_viz_ns" pkg="nuscenes" type="radar_viz_3" name="br_radar_viz" output="screen">
+        <param name="radar_frame" value="/nuscenes_radar_back_right"/>
+        <remap from="/radar_topic" to="/radar_back_right_inlier_valid"/>
+    </node>
+
+</launch>

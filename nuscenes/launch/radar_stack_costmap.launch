@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+
+<launch>
+
+		<node pkg="radar_odometry" type="radar_ego_motion" name="radar_ego_motion" output="log"> </node>
+
+    <node pkg="nuscenes" type="gt_odom_publisher" name="gt_odom_publisher" output="screen"> </node>
+
+    <node pkg="nuscenes" type="origin_tf_publisher" name="origin_tf_publisher" output="log"> </node>
+
+    <node pkg="radar_odometry" type="vel_intgration" name="vel_intgration" output="log">
+        <remap from="/gt_vel" to="/vel"/>
+        <remap from="/gt_ego_motion" to="/radar_ego_motion"/>
+    </node>
+<!--  -->
+    <node pkg="radar_odometry" type="conti_stack_cov_with_p_unc" name="conti_stack_cov" output="log">
+      <remap from="/vel" to="/vel"/>
+      <param name="/stack_frame_num" value="3"/>
+		</node>
+
+    <!--\\\\\\\\\\\\\\\\\\\\\ Stack GND-RO \\\\\\\\\\\\\\\\\\\\\\\\\
+
+    <node pkg="radar_odometry" type="stack_gnd_costmap" name="stack_gnd_costmap" output="screen">
+
+      <remap from="/input_pc" to="conti_stack_cov/radar_stack"/>
+      <remap from="/radar_stack_cov" to="conti_stack_cov/radar_stack_cov"/>
+      <remap from="/radar_stack_index" to="conti_stack_cov/radar_stack_index"/>
+
+      <param name="/msg_flt_buffer" value="2000"/>
+      <param name="/viz" value="0"/>
+    </node>
+		-->
+
+</launch>

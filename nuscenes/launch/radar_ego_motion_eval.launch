@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<launch>
+
+    <node pkg="nuscenes" type="gt_odom_publisher" name="gt_odom_publisher" output="log"> </node>
+
+    <node pkg="nuscenes" type="origin_tf_publisher" name="origin_tf_publisher" output="log"> </node>
+
+    <node pkg="radar_odometry" type="radar_ego_motion" name="radar_ego_motion" output="log"> </node>
+
+    <node pkg="radar_odometry" type="vel_intgration" name="vel_intgration" output="screen">
+        <remap from="/gt_vel" to="/vel"/>
+        <remap from="/gt_ego_motion" to="/radar_ego_motion"/>
+    </node>
+
+		<node pkg="lidar_scan_matching" type="f_by_f_error_between_odom" name="f_by_f_error_between_odom_lo" output="screen">
+		  <remap from="/gt_odom" to="/gt_odom"/>
+		  <remap from="/odom" to="/radar_ego_motion"/>
+		</node>
+
+
+</launch>

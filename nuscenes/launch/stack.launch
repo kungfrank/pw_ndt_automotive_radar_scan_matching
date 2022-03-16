@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<launch>
+<!--
+		<node pkg="nuscenes" type="gt_odom_publisher" name="gt_odom_publisher" output="screen"> </node>
+    <node pkg="nuscenes" type="origin_tf_publisher" name="origin_tf_publisher" output="log"> </node>
+-->
+		<node pkg="radar_odometry" type="radar_ego_motion" name="radar_ego_motion" output="log"> </node>
+
+    <node pkg="radar_odometry" type="vel_intgration" name="vel_intgration" output="log">
+        <remap from="/gt_vel" to="/vel"/>
+        <remap from="/gt_ego_motion" to="/radar_ego_motion"/>
+    </node>
+
+		<!-- -->
+		<node pkg="radar_odometry" type="conti_stack_cov_with_p_unc" name="conti_stack_cov" output="screen">
+      <remap from="/vel" to="/vel"/>
+      <param name="/stack_frame_num" value="1"/>
+		</node>
+
+</launch>

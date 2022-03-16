@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package format="2">.
+  <name>conti_radar</name>
+  <version>0.0.1</version>
+  <description>Conti radar messages.</description>
+  <maintainer email="dengyu.eed08g@nctu.edu.tw">DengYu Yang</maintainer>
+  <author email="dengyu.eed08g@nctu.edu.tw">DengYu Yang</author>
+  <license>BSD</license>
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>message_generation</build_depend>
+  <exec_depend>message_runtime</exec_depend>
+  <depend>std_msgs</depend>
+</package>

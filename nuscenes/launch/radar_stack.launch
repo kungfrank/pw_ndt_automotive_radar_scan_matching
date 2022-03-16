@@ -1,0 +1,454 @@
+<?xml version="1.0"?>
+
+<launch>
+
+		<node pkg="radar_odometry" type="radar_ego_motion" name="radar_ego_motion" output="log"> </node>
+
+    <node pkg="nuscenes" type="gt_odom_publisher" name="gt_odom_publisher" output="screen"> </node>
+
+    <node pkg="nuscenes" type="origin_tf_publisher" name="origin_tf_publisher" output="log"> </node>
+
+    <node pkg="radar_odometry" type="vel_intgration" name="vel_intgration" output="log">
+        <remap from="/gt_vel" to="/vel"/>
+        <remap from="/gt_ego_motion" to="/radar_ego_motion"/>
+    </node>
+<!--  -->
+    <node pkg="radar_odometry" type="conti_stack_cov_with_p_unc" name="conti_stack_cov2" output="log">
+      <remap from="/vel" to="/vel"/>
+      <param name="/stack_frame_num" value="2"/>
+		</node>
+
+    <node pkg="radar_odometry" type="conti_stack_cov_with_p_unc" name="conti_stack_cov4" output="log">
+      <remap from="/vel" to="/vel"/>
+      <param name="/stack_frame_num" value="4"/>
+		</node>
+
+    <node pkg="radar_odometry" type="conti_stack_cov_with_p_unc" name="conti_stack_cov6" output="log">
+      <remap from="/vel" to="/vel"/>
+      <param name="/stack_frame_num" value="6"/>
+		</node>
+
+    <node pkg="radar_odometry" type="conti_stack_cov_with_p_unc" name="conti_stack_cov7" output="log">
+      <remap from="/vel" to="/vel"/>
+      <param name="/stack_frame_num" value="7"/>
+		</node>
+
+    <node pkg="radar_odometry" type="conti_stack_cov_with_p_unc" name="conti_stack_cov8" output="log">
+      <remap from="/vel" to="/vel"/>
+      <param name="/stack_frame_num" value="8"/>
+		</node>
+
+    <node pkg="radar_odometry" type="conti_stack_cov_with_p_unc" name="conti_stack_cov9" output="log">
+      <remap from="/vel" to="/vel"/>
+      <param name="/stack_frame_num" value="9"/>
+		</node>
+
+    <node pkg="radar_odometry" type="conti_stack_cov_with_p_unc" name="conti_stack_cov10" output="log">
+      <remap from="/vel" to="/vel"/>
+      <param name="/stack_frame_num" value="10"/>
+		</node>
+<!--
+    <node pkg="radar_odometry" type="conti_stack_cov_with_p_unc" name="conti_stack_cov11" output="log">
+      <remap from="/vel" to="/vel"/>
+      <param name="/stack_frame_num" value="11"/>
+		</node>
+
+    <node pkg="radar_odometry" type="conti_stack_cov_with_p_unc" name="conti_stack_cov12" output="log">
+      <remap from="/vel" to="/vel"/>
+      <param name="/stack_frame_num" value="12"/>
+		</node>
+
+    <node pkg="radar_odometry" type="conti_stack_cov_with_p_unc" name="conti_stack_cov13" output="log">
+      <remap from="/vel" to="/vel"/>
+      <param name="/stack_frame_num" value="13"/>
+		</node>
+
+    <node pkg="radar_odometry" type="conti_stack_cov_with_p_unc" name="conti_stack_cov14" output="log">
+      <remap from="/vel" to="/vel"/>
+      <param name="/stack_frame_num" value="14"/>
+		</node>
+
+    <node pkg="radar_odometry" type="conti_stack_cov_with_p_unc" name="conti_stack_cov15" output="log">
+      <remap from="/vel" to="/vel"/>
+      <param name="/stack_frame_num" value="15"/>
+		</node>
+-->
+
+		<!--\\\\\\\\\\\\\\\\\\\\\ Downsample radar freq. \\\\\\\\\\\\\\\\\\\\\\\\\
+		<node pkg="radar_odometry" type="downsampled_semi_dense" name="downsampled_semi_dense" output="screen"> </node>
+-->
+
+		<!--\\\\\\\\\\\\\\\\\\\\\ Lidar ICP \\\\\\\\\\\\\\\\\\\\\\\\\
+		<node pkg="radar_odometry" type="lidar_preprocess" name="lidar_preprocess" output="screen"></node>
+		<node pkg="radar_odometry" type="lidar_odometry" name="lidar_odometry" output="screen">
+      <remap from="/nuscenes_lidar" to="/nuscenes_lidar_new"/>
+		</node>
+
+    <node pkg="radar_odometry" type="kitti_odom_file_generator_tf_version" name="kitti_odom_file_generator_tf_version_for_lo" output="screen">
+      <param name="/folder_name" value="/home/joinet/radar_ws/src/radar_odometry/src/res/new/4hz"/>
+      <remap from="/radar_odom" to="/lidar_odom"/>
+      <param name="/msg_flt_buffer" value="20000"/>
+
+      <param name="/gt_file_name" value="test_gt.txt"/>
+      <param name="/res_file_name" value="test.txt"/>
+    </node>
+-->
+
+    <!--\\\\\\\\\\\\\\\\\\\\\ Stack ICP \\\\\\\\\\\\\\\\\\\\\\\\\-->
+    <node pkg="radar_odometry" type="stack_icp" name="pcl_icp_stack2" output="screen">
+				  <remap from="/input_pc" to="conti_stack_cov2/radar_stack"/>
+          <param name="/use_init_guess" value="true"/>
+				  <param name="/icp_max_dis" value="2.0"/>
+				  <param name="/icp_iteration" value="100"/>
+				  <param name="/msg_flt_buffer" value="2000"/>
+    </node>
+
+    <node pkg="radar_odometry" type="stack_icp" name="pcl_icp_stack4" output="screen">
+				  <remap from="/input_pc" to="conti_stack_cov4/radar_stack"/>
+          <param name="/use_init_guess" value="true"/>
+				  <param name="/icp_max_dis" value="2.0"/>
+				  <param name="/icp_iteration" value="100"/>
+				  <param name="/msg_flt_buffer" value="2000"/>
+    </node>
+
+    <node pkg="radar_odometry" type="stack_icp" name="pcl_icp_stack6" output="screen">
+				  <remap from="/input_pc" to="conti_stack_cov6/radar_stack"/>
+          <param name="/use_init_guess" value="true"/>
+				  <param name="/icp_max_dis" value="2.0"/>
+				  <param name="/icp_iteration" value="100"/>
+				  <param name="/msg_flt_buffer" value="2000"/>
+    </node>
+
+    <node pkg="radar_odometry" type="stack_icp" name="pcl_icp_stack7" output="screen">
+				  <remap from="/input_pc" to="conti_stack_cov7/radar_stack"/>
+          <param name="/use_init_guess" value="true"/>
+				  <param name="/icp_max_dis" value="2.0"/>
+				  <param name="/icp_iteration" value="100"/>
+				  <param name="/msg_flt_buffer" value="2000"/>
+    </node>
+
+    <node pkg="radar_odometry" type="stack_icp" name="pcl_icp_stack8" output="screen">
+				  <remap from="/input_pc" to="conti_stack_cov8/radar_stack"/>
+          <param name="/use_init_guess" value="true"/>
+				  <param name="/icp_max_dis" value="2.0"/>
+				  <param name="/icp_iteration" value="100"/>
+				  <param name="/msg_flt_buffer" value="2000"/>
+    </node>
+
+    <node pkg="radar_odometry" type="stack_icp" name="pcl_icp_stack9" output="screen">
+				  <remap from="/input_pc" to="conti_stack_cov9/radar_stack"/>
+          <param name="/use_init_guess" value="true"/>
+				  <param name="/icp_max_dis" value="2.0"/>
+				  <param name="/icp_iteration" value="100"/>
+				  <param name="/msg_flt_buffer" value="2000"/>
+    </node>
+
+    <!-- \\\\\\\\\\\\\\\\\\\\\ Stack NDT \\\\\\\\\\\\\\\\\\\\\\\\\
+    <node pkg="radar_odometry" type="stack_ndt" name="pcl_ndt_stack" output="screen">
+      <remap from="/input_pc" to="conti_stack_cov/radar_stack"/>
+      <param name="/ndt2d_transformation_epsilon" value="0.00001"/>
+      <param name="/ndt2d_step_size" value="0.03"/>
+      <param name="/ndt2d_grid_step" value="3"/>
+      <param name="/ndt2d_iteration" value="300"/>
+      <param name="/msg_flt_buffer" value="2000"/>
+			<param name="/viz" value="false"/>
+    </node>
+-->
+    <!--\\\\\\\\\\\\\\\\\\\\\ Stack GND-RO \\\\\\\\\\\\\\\\\\\\\\\\\-->
+
+    <node pkg="radar_odometry" type="stack_ndt_d2d_2d" name="pcl_GND_RO_stack6" output="screen">
+
+      <remap from="/input_pc" to="conti_stack_cov6/radar_stack"/>
+      <remap from="/radar_stack_cov" to="conti_stack_cov6/radar_stack_cov"/>
+			<remap from="/radar_stack_index" to="conti_stack_cov6/radar_stack_index"/>
+
+      <param name="/ndt2d_max_it_" value="300"/>
+      <param name="/ndt2d_eps_" value="0.00001"/>
+      <param name="/ndt2d_grid_step_" value="3"/>
+      <param name="/ndt2d_step_size_x_" value="0.02"/>
+      <param name="/ndt2d_step_size_y_" value="0.02"/>
+      <param name="/ndt2d_step_size_theta_" value="0.02"/>
+      <param name="/msg_flt_buffer" value="2000"/>
+      <param name="/viz" value="false"/>
+    </node>
+
+    <node pkg="radar_odometry" type="stack_ndt_d2d_2d" name="pcl_GND_RO_stack7" output="screen">
+
+      <remap from="/input_pc" to="conti_stack_cov7/radar_stack"/>
+      <remap from="/radar_stack_cov" to="conti_stack_cov7/radar_stack_cov"/>
+			<remap from="/radar_stack_index" to="conti_stack_cov7/radar_stack_index"/>
+
+      <param name="/ndt2d_max_it_" value="300"/>
+      <param name="/ndt2d_eps_" value="0.00001"/>
+      <param name="/ndt2d_grid_step_" value="3"/>
+      <param name="/ndt2d_step_size_x_" value="0.02"/>
+      <param name="/ndt2d_step_size_y_" value="0.02"/>
+      <param name="/ndt2d_step_size_theta_" value="0.02"/>
+      <param name="/msg_flt_buffer" value="2000"/>
+      <param name="/viz" value="false"/>
+    </node>
+
+    <node pkg="radar_odometry" type="stack_ndt_d2d_2d" name="pcl_GND_RO_stack8" output="screen">
+
+      <remap from="/input_pc" to="conti_stack_cov8/radar_stack"/>
+      <remap from="/radar_stack_cov" to="conti_stack_cov8/radar_stack_cov"/>
+			<remap from="/radar_stack_index" to="conti_stack_cov8/radar_stack_index"/>
+
+      <param name="/ndt2d_max_it_" value="300"/>
+      <param name="/ndt2d_eps_" value="0.00001"/>
+      <param name="/ndt2d_grid_step_" value="3"/>
+      <param name="/ndt2d_step_size_x_" value="0.02"/>
+      <param name="/ndt2d_step_size_y_" value="0.02"/>
+      <param name="/ndt2d_step_size_theta_" value="0.02"/>
+      <param name="/msg_flt_buffer" value="2000"/>
+      <param name="/viz" value="false"/>
+    </node>
+
+    <node pkg="radar_odometry" type="stack_ndt_d2d_2d" name="pcl_GND_RO_stack9" output="screen">
+
+      <remap from="/input_pc" to="conti_stack_cov9/radar_stack"/>
+      <remap from="/radar_stack_cov" to="conti_stack_cov9/radar_stack_cov"/>
+			<remap from="/radar_stack_index" to="conti_stack_cov9/radar_stack_index"/>
+
+      <param name="/ndt2d_max_it_" value="300"/>
+      <param name="/ndt2d_eps_" value="0.00001"/>
+      <param name="/ndt2d_grid_step_" value="3"/>
+      <param name="/ndt2d_step_size_x_" value="0.02"/>
+      <param name="/ndt2d_step_size_y_" value="0.02"/>
+      <param name="/ndt2d_step_size_theta_" value="0.02"/>
+      <param name="/msg_flt_buffer" value="2000"/>
+      <param name="/viz" value="false"/>
+    </node>
+
+    <node pkg="radar_odometry" type="stack_ndt_d2d_2d" name="pcl_GND_RO_stack10" output="screen">
+
+      <remap from="/input_pc" to="conti_stack_cov10/radar_stack"/>
+      <remap from="/radar_stack_cov" to="conti_stack_cov10/radar_stack_cov"/>
+			<remap from="/radar_stack_index" to="conti_stack_cov10/radar_stack_index"/>
+
+      <param name="/ndt2d_max_it_" value="300"/>
+      <param name="/ndt2d_eps_" value="0.00001"/>
+      <param name="/ndt2d_grid_step_" value="3"/>
+      <param name="/ndt2d_step_size_x_" value="0.02"/>
+      <param name="/ndt2d_step_size_y_" value="0.02"/>
+      <param name="/ndt2d_step_size_theta_" value="0.02"/>
+      <param name="/msg_flt_buffer" value="2000"/>
+      <param name="/viz" value="false"/>
+    </node>
+<!--
+    <node pkg="radar_odometry" type="stack_ndt_d2d_2d" name="pcl_GND_RO_stack11" output="screen">
+
+      <remap from="/input_pc" to="conti_stack_cov11/radar_stack"/>
+      <remap from="/radar_stack_cov" to="conti_stack_cov11/radar_stack_cov"/>
+			<remap from="/radar_stack_index" to="conti_stack_cov11/radar_stack_index"/>
+
+      <param name="/ndt2d_max_it_" value="300"/>
+      <param name="/ndt2d_eps_" value="0.00001"/>
+      <param name="/ndt2d_grid_step_" value="3"/>
+      <param name="/ndt2d_step_size_x_" value="0.02"/>
+      <param name="/ndt2d_step_size_y_" value="0.02"/>
+      <param name="/ndt2d_step_size_theta_" value="0.02"/>
+      <param name="/msg_flt_buffer" value="2000"/>
+      <param name="/viz" value="false"/>
+    </node>
+
+    <node pkg="radar_odometry" type="stack_ndt_d2d_2d" name="pcl_GND_RO_stack12" output="screen">
+
+      <remap from="/input_pc" to="conti_stack_cov12/radar_stack"/>
+      <remap from="/radar_stack_cov" to="conti_stack_cov12/radar_stack_cov"/>
+			<remap from="/radar_stack_index" to="conti_stack_cov12/radar_stack_index"/>
+
+      <param name="/ndt2d_max_it_" value="300"/>
+      <param name="/ndt2d_eps_" value="0.00001"/>
+      <param name="/ndt2d_grid_step_" value="3"/>
+      <param name="/ndt2d_step_size_x_" value="0.02"/>
+      <param name="/ndt2d_step_size_y_" value="0.02"/>
+      <param name="/ndt2d_step_size_theta_" value="0.02"/>
+      <param name="/msg_flt_buffer" value="2000"/>
+      <param name="/viz" value="false"/>
+    </node>
+
+    <node pkg="radar_odometry" type="stack_ndt_d2d_2d" name="pcl_GND_RO_stack13" output="screen">
+
+      <remap from="/input_pc" to="conti_stack_cov13/radar_stack"/>
+      <remap from="/radar_stack_cov" to="conti_stack_cov13/radar_stack_cov"/>
+			<remap from="/radar_stack_index" to="conti_stack_cov13/radar_stack_index"/>
+
+      <param name="/ndt2d_max_it_" value="300"/>
+      <param name="/ndt2d_eps_" value="0.00001"/>
+      <param name="/ndt2d_grid_step_" value="3"/>
+      <param name="/ndt2d_step_size_x_" value="0.02"/>
+      <param name="/ndt2d_step_size_y_" value="0.02"/>
+      <param name="/ndt2d_step_size_theta_" value="0.02"/>
+      <param name="/msg_flt_buffer" value="2000"/>
+      <param name="/viz" value="false"/>
+    </node>
+
+    <node pkg="radar_odometry" type="stack_ndt_d2d_2d" name="pcl_GND_RO_stack14" output="screen">
+
+      <remap from="/input_pc" to="conti_stack_cov14/radar_stack"/>
+      <remap from="/radar_stack_cov" to="conti_stack_cov14/radar_stack_cov"/>
+			<remap from="/radar_stack_index" to="conti_stack_cov14/radar_stack_index"/>
+
+      <param name="/ndt2d_max_it_" value="300"/>
+      <param name="/ndt2d_eps_" value="0.00001"/>
+      <param name="/ndt2d_grid_step_" value="3"/>
+      <param name="/ndt2d_step_size_x_" value="0.02"/>
+      <param name="/ndt2d_step_size_y_" value="0.02"/>
+      <param name="/ndt2d_step_size_theta_" value="0.02"/>
+      <param name="/msg_flt_buffer" value="2000"/>
+      <param name="/viz" value="false"/>
+    </node>
+
+    <node pkg="radar_odometry" type="stack_ndt_d2d_2d" name="pcl_GND_RO_stack15" output="screen">
+
+      <remap from="/input_pc" to="conti_stack_cov15/radar_stack"/>
+      <remap from="/radar_stack_cov" to="conti_stack_cov15/radar_stack_cov"/>
+			<remap from="/radar_stack_index" to="conti_stack_cov15/radar_stack_index"/>
+
+      <param name="/ndt2d_max_it_" value="300"/>
+      <param name="/ndt2d_eps_" value="0.00001"/>
+      <param name="/ndt2d_grid_step_" value="3"/>
+      <param name="/ndt2d_step_size_x_" value="0.02"/>
+      <param name="/ndt2d_step_size_y_" value="0.02"/>
+      <param name="/ndt2d_step_size_theta_" value="0.02"/>
+      <param name="/msg_flt_buffer" value="2000"/>
+      <param name="/viz" value="false"/>
+    </node>
+-->
+
+
+    <node pkg="radar_odometry" type="kitti_odom_file_generator_tf_version" name="kitti_odom_file_generator_tf_version6" output="screen">
+      <param name="/folder_name" value="/home/joinet/Downloads/kitti/devkit/cpp/results/new/gnd_cov_dynamic_grid/s6/data"/>
+      <remap from="/radar_odom" to="/pcl_GND_RO_stack6/ndt_d2d_odom"/>
+      <param name="/msg_flt_buffer" value="2000"/>
+
+      <param name="/gt_file_name" value="s6_gnd_cov_dynamic_grid_section1_gt.txt"/>
+      <param name="/res_file_name" value="s6_gnd_cov_dynamic_grid_section1.txt"/>
+    </node>
+
+    <node pkg="radar_odometry" type="kitti_odom_file_generator_tf_version" name="kitti_odom_file_generator_tf_version7" output="screen">
+      <param name="/folder_name" value="/home/joinet/Downloads/kitti/devkit/cpp/results/new/gnd_cov_dynamic_grid/s7/data"/>
+      <remap from="/radar_odom" to="/pcl_GND_RO_stack7/ndt_d2d_odom"/>
+      <param name="/msg_flt_buffer" value="2000"/>
+
+      <param name="/gt_file_name" value="s7_gnd_cov_dynamic_grid_section1_gt.txt"/>
+      <param name="/res_file_name" value="s7_gnd_cov_dynamic_grid_section1.txt"/>
+    </node>
+
+    <node pkg="radar_odometry" type="kitti_odom_file_generator_tf_version" name="kitti_odom_file_generator_tf_version8" output="screen">
+      <param name="/folder_name" value="/home/joinet/Downloads/kitti/devkit/cpp/results/new/gnd_cov_dynamic_grid/s8/data"/>
+      <remap from="/radar_odom" to="/pcl_GND_RO_stack8/ndt_d2d_odom"/>
+      <param name="/msg_flt_buffer" value="2000"/>
+
+      <param name="/gt_file_name" value="s8_gnd_cov_dynamic_grid_section1_gt.txt"/>
+      <param name="/res_file_name" value="s8_gnd_cov_dynamic_grid_section1.txt"/>
+    </node>
+
+    <node pkg="radar_odometry" type="kitti_odom_file_generator_tf_version" name="kitti_odom_file_generator_tf_version9" output="screen">
+      <param name="/folder_name" value="/home/joinet/Downloads/kitti/devkit/cpp/results/new/gnd_cov_dynamic_grid/s9/data"/>
+      <remap from="/radar_odom" to="/pcl_GND_RO_stack9/ndt_d2d_odom"/>
+      <param name="/msg_flt_buffer" value="2000"/>
+
+      <param name="/gt_file_name" value="s9_gnd_cov_dynamic_grid_section1_gt.txt"/>
+      <param name="/res_file_name" value="s9_gnd_cov_dynamic_grid_section1.txt"/>
+    </node>
+
+    <node pkg="radar_odometry" type="kitti_odom_file_generator_tf_version" name="kitti_odom_file_generator_tf_version10" output="screen">
+      <param name="/folder_name" value="/home/joinet/Downloads/kitti/devkit/cpp/results/new/gnd_cov_dynamic_grid/s10/data"/>
+      <remap from="/radar_odom" to="/pcl_GND_RO_stack10/ndt_d2d_odom"/>
+      <param name="/msg_flt_buffer" value="2000"/>
+
+      <param name="/gt_file_name" value="s10_gnd_cov_dynamic_grid_section1_gt.txt"/>
+      <param name="/res_file_name" value="s10_gnd_cov_dynamic_grid_section1.txt"/>
+    </node>
+
+
+
+
+
+
+    <node pkg="radar_odometry" type="kitti_odom_file_generator_tf_version" name="kitti_odom_file_generator_tf_version_icp2" output="screen">
+      <param name="/folder_name" value="/home/joinet/Downloads/kitti/devkit/cpp/results/new/icp/s2/data"/>
+      <remap from="/radar_odom" to="/pcl_icp_stack2/icp_odom"/>
+      <param name="/msg_flt_buffer" value="2000"/>
+
+      <param name="/gt_file_name" value="s2_icp_section1_gt.txt"/>
+      <param name="/res_file_name" value="s2_icp_section1.txt"/>
+    </node>
+
+    <node pkg="radar_odometry" type="kitti_odom_file_generator_tf_version" name="kitti_odom_file_generator_tf_version_icp4" output="screen">
+      <param name="/folder_name" value="/home/joinet/Downloads/kitti/devkit/cpp/results/new/icp/s4/data"/>
+      <remap from="/radar_odom" to="/pcl_icp_stack4/icp_odom"/>
+      <param name="/msg_flt_buffer" value="2000"/>
+
+      <param name="/gt_file_name" value="s4_icp_section1_gt.txt"/>
+      <param name="/res_file_name" value="s4_icp_section1.txt"/>
+    </node>
+
+    <node pkg="radar_odometry" type="kitti_odom_file_generator_tf_version" name="kitti_odom_file_generator_tf_version_icp6" output="screen">
+      <param name="/folder_name" value="/home/joinet/Downloads/kitti/devkit/cpp/results/new/icp/s6/data"/>
+      <remap from="/radar_odom" to="/pcl_icp_stack6/icp_odom"/>
+      <param name="/msg_flt_buffer" value="2000"/>
+
+      <param name="/gt_file_name" value="s6_icp_section1_gt.txt"/>
+      <param name="/res_file_name" value="s6_icp_section1.txt"/>
+    </node>
+
+    <node pkg="radar_odometry" type="kitti_odom_file_generator_tf_version" name="kitti_odom_file_generator_tf_version_icp7" output="screen">
+      <param name="/folder_name" value="/home/joinet/Downloads/kitti/devkit/cpp/results/new/icp/s7/data"/>
+      <remap from="/radar_odom" to="/pcl_icp_stack7/icp_odom"/>
+      <param name="/msg_flt_buffer" value="2000"/>
+
+      <param name="/gt_file_name" value="s7_icp_section1_gt.txt"/>
+      <param name="/res_file_name" value="s7_icp_section1.txt"/>
+    </node>
+
+    <node pkg="radar_odometry" type="kitti_odom_file_generator_tf_version" name="kitti_odom_file_generator_tf_version_icp8" output="screen">
+      <param name="/folder_name" value="/home/joinet/Downloads/kitti/devkit/cpp/results/new/icp/s8/data"/>
+      <remap from="/radar_odom" to="/pcl_icp_stack8/icp_odom"/>
+      <param name="/msg_flt_buffer" value="2000"/>
+
+      <param name="/gt_file_name" value="s8_icp_section1_gt.txt"/>
+      <param name="/res_file_name" value="s8_icp_section1.txt"/>
+    </node>
+
+    <node pkg="radar_odometry" type="kitti_odom_file_generator_tf_version" name="kitti_odom_file_generator_tf_version_icp9" output="screen">
+      <param name="/folder_name" value="/home/joinet/Downloads/kitti/devkit/cpp/results/new/icp/s9/data"/>
+      <remap from="/radar_odom" to="/pcl_icp_stack9/icp_odom"/>
+      <param name="/msg_flt_buffer" value="2000"/>
+
+      <param name="/gt_file_name" value="s9_icp_section1_gt.txt"/>
+      <param name="/res_file_name" value="s9_icp_section1.txt"/>
+    </node>
+
+
+<!--
+    <node pkg="radar_odometry" type="kitti_odom_file_generator_tf_version" name="kitti_odom_file_generator_tf_version2" output="screen">
+      <param name="/folder_name" value="/home/joinet/Downloads/kitti/devkit/cpp/results/new/icp/s3/data"/>
+      <remap from="/radar_odom" to="/pcl_icp_stack/icp_odom"/>
+      <param name="/msg_flt_buffer" value="2000"/>
+
+      <param name="/gt_file_name" value="s3_icp_section3_gt.txt"/>
+      <param name="/res_file_name" value="s3_icp_section3.txt"/>
+    </node>
+  -->
+
+<!-- /pcl_icp_stack/icp_odom /pcl_ndt_stack/ndt_odom /pcl_GND_RO_stack/ndt_d2d_odom -->
+
+<!--
+    <node pkg="radar_odometry" type="kitti_odom_file_generator_tf_version" name="kitti_odom_file_generator_tf_version3" output="screen">
+      <param name="/folder_name" value="/home/joinet/radar_ws/src/radar_odometry/src/res/new"/>
+      <remap from="/radar_odom" to="/radar_ego_motion"/>
+      <param name="/msg_flt_buffer" value="2000"/>
+
+      <param name="/gt_file_name" value="ego_section1_gt.txt"/>
+      <param name="/res_file_name" value="t.txt"/>
+    </node>
+-->
+
+
+
+
+
+</launch>

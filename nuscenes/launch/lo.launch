@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+
+<launch>
+
+    <node pkg="nuscenes" type="gt_odom_publisher" name="gt_odom_publisher" output="screen"> </node>
+    <node pkg="nuscenes" type="origin_tf_publisher" name="origin_tf_publisher" output="log"> </node>
+
+    <!--\\\\\\\\\\\\\\\\\\\\\ Lidar ICP \\\\\\\\\\\\\\\\\\\\\\\\\-->
+    <node pkg="radar_odometry" type="lidar_preprocess" name="lidar_preprocess" output="screen"></node>
+    <node pkg="radar_odometry" type="lidar_odometry" name="lidar_odometry" output="screen">
+      <remap from="/nuscenes_lidar" to="/nuscenes_lidar_new"/>
+    </node>
+
+<!--
+    <node pkg="radar_odometry" type="kitti_odom_file_generator_tf_version" name="kitti_odom_file_generator_tf_version_for_lo" output="screen">
+      <param name="/folder_name" value="/home/joinet/radar_ws/src/radar_odometry/src/res/new/4hz"/>
+      <remap from="/radar_odom" to="/lidar_odom"/>
+      <param name="/msg_flt_buffer" value="20000"/>
+
+      <param name="/gt_file_name" value="test_gt.txt"/>
+      <param name="/res_file_name" value="test.txt"/>
+    </node>
+-->
+
+
+
+
+</launch>

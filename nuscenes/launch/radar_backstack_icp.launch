@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+
+<launch>
+
+    <node pkg="nuscenes" type="gt_odom_publisher" name="gt_odom_publisher" output="log"> </node>
+
+    <node pkg="nuscenes" type="origin_tf_publisher" name="origin_tf_publisher" output="log"> </node>
+
+    <node pkg="radar_odometry" type="vel_intgration" name="vel_intgration" output="log">
+        <remap from="/gt_vel" to="/vel"/>
+        <remap from="/gt_ego_motion" to="/radar_ego_motion"/>
+    </node>
+<!--
+		<node pkg="radar_odometry" type="conti_stack" name="conti_stack1" output="screen">
+      <remap from="/vel" to="/vel"/>
+  	  <param name="/stack_frame_num" value="1"/>
+		</node>
+-->
+		<node pkg="radar_odometry" type="conti_stack" name="conti_stack10" output="screen">
+      <remap from="/vel" to="/vel"/>
+      <param name="/stack_frame_num" value="10"/>
+		</node>
+<!--
+    <node pkg="radar_odometry" type="stack_icp" name="pcl_icp_stack1" output="screen">
+      <remap from="/input_pc" to="conti_stack1/radar_stack"/>
+      <param name="/icp_max_dis" value="2.5"/>
+      <param name="/icp_iteration" value="100"/>
+      <param name="/msg_flt_buffer" value="2000"/>
+    </node>
+-->
+    <node pkg="radar_odometry" type="stack_icp" name="pcl_icp_stack10" output="screen">
+      <remap from="/input_pc" to="conti_stack10/radar_stack"/>
+      <param name="/icp_max_dis" value="2.0"/>
+      <param name="/icp_iteration" value="100"/>
+      <param name="/msg_flt_buffer" value="2000"/>
+    </node>
+
+		<node pkg="radar_odometry" type="odom_error_cal" name="odom_error_cal_icp_stack" output="screen">
+			<remap from="/radar_ego_motion" to="/pcl_icp_stack1/icp_odom"/>
+      <param name="/frame_count_num" value="10"/>
+      <param name="/msg_flt_buffer" value="200"/>
+		</node>
+
+		<node pkg="radar_odometry" type="odom_error_cal" name="odom_error_cal_icp_stack10" output="screen">
+			<remap from="/radar_ego_motion" to="/pcl_icp_stack10/icp_odom"/>
+      <param name="/frame_count_num" value="10"/>
+      <param name="/msg_flt_buffer" value="200"/>
+		</node>
+
+    <node pkg="radar_odometry" type="error_mean" name="error_mean_stack" output="screen">
+        <remap from="/error" to="/odom_error_cal_icp_stack/interval_odom_error"/>
+    </node>
+    <node pkg="radar_odometry" type="error_mean" name="error_mean_stack_flt" output="screen">
+        <remap from="/error" to="/odom_error_cal_icp_stack10/interval_odom_error"/>
+    </node>
+
+</launch>
