@@ -61,14 +61,17 @@
   <build_export_depend>std_msgs</build_export_depend>
   <build_export_depend>cv_bridge</build_export_depend>
 	<build_export_depend>conti_radar</build_export_depend>
-	<build_depend>ro_msg</build_depend>
+  <build_export_depend>ro_msg</build_export_depend>
 
   <exec_depend>roscpp</exec_depend>
   <exec_depend>rospy</exec_depend>
   <exec_depend>std_msgs</exec_depend>
   <exec_depend>cv_bridge</exec_depend>
   <exec_depend>conti_radar</exec_depend>
-	<build_depend>ro_msg</build_depend>
+  <exec_depend>ro_msg</exec_depend>
+
+  <depend>pcl_ros</depend>
+  <depend>pcl_conversions</depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>

@@ -12,6 +12,7 @@ set(CMAKE_BUILD_TYPE Release)
 
 set (OpenCV_DIR /opt/ros/kinetic/share/OpenCV-3.3.1-dev)
 find_package( OpenCV REQUIRED )
+find_package( PCL REQUIRED )
 
 find_package(catkin REQUIRED COMPONENTS
   pcl_conversions
@@ -85,12 +86,12 @@ target_link_libraries(error_mean ${catkin_LIBRARIES})
 add_executable(error_mean_kitti src/error_mean_kitti.cpp)
 target_link_libraries(error_mean_kitti ${catkin_LIBRARIES})
 
-add_executable(kitti_odom_file_generator src/kitti_odom_file_generator.cpp)
-target_link_libraries(kitti_odom_file_generator ${catkin_LIBRARIES})
-add_executable(kitti_odom_file_generator_tf_version src/kitti_odom_file_generator_tf_version.cpp)
-target_link_libraries(kitti_odom_file_generator_tf_version ${catkin_LIBRARIES})
-add_executable(kitti_odom_file_generator_single src/kitti_odom_file_generator_single.cpp)
-target_link_libraries(kitti_odom_file_generator_single ${catkin_LIBRARIES})
+#add_executable(kitti_odom_file_generator src/kitti_odom_file_generator.cpp)
+#target_link_libraries(kitti_odom_file_generator ${catkin_LIBRARIES})
+#add_executable(kitti_odom_file_generator_tf_version src/kitti_odom_file_generator_tf_version.cpp)
+#target_link_libraries(kitti_odom_file_generator_tf_version ${catkin_LIBRARIES})
+#add_executable(kitti_odom_file_generator_single src/kitti_odom_file_generator_single.cpp)
+#target_link_libraries(kitti_odom_file_generator_single ${catkin_LIBRARIES})
 
 
 add_executable(conti_merge_td_comp src/conti_merge_td_comp.cpp)
@@ -108,14 +109,14 @@ add_executable(downsampled_semi_dense src/downsampled_semi_dense.cpp)
 target_link_libraries(downsampled_semi_dense ${catkin_LIBRARIES})
 
 
-add_executable(stack_icp src/stack_icp.cpp)
-target_link_libraries(stack_icp ${catkin_LIBRARIES})
-add_executable(stack_ndt src/stack_ndt.cpp)
-target_link_libraries(stack_ndt ${catkin_LIBRARIES})
+#add_executable(stack_icp src/stack_icp.cpp)
+#target_link_libraries(stack_icp ${catkin_LIBRARIES})
+#add_executable(stack_ndt src/stack_ndt.cpp)
+#target_link_libraries(stack_ndt ${catkin_LIBRARIES})
 add_executable(stack_ndt_d2d_2d src/stack_ndt_d2d_2d.cpp)
-target_link_libraries(stack_ndt_d2d_2d ${catkin_LIBRARIES})
-add_executable(stack_gnd_costmap src/stack_gnd_costmap.cpp)
-target_link_libraries(stack_gnd_costmap ${catkin_LIBRARIES})
+target_link_libraries(stack_ndt_d2d_2d ${catkin_LIBRARIES} pcl_visualization)
+#add_executable(stack_gnd_costmap src/stack_gnd_costmap.cpp)
+#target_link_libraries(stack_gnd_costmap ${catkin_LIBRARIES})
 
 
 #add_executable(radar_scan_to_img src/radar_scan_to_img.cpp)
