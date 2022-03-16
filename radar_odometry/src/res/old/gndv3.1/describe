@@ -1,9 +1,0 @@
-range_sigma = 0.25/3;
-azimuth_sigma = 0.1/3;
-
-<param name="/ndt2d_max_it_" value="60"/>
-<param name="/ndt2d_eps_" value="0.0001"/>
-<param name="/ndt2d_grid_step_" value="2"/>
-<param name="/ndt2d_step_size_x_" value="0.05"/>
-<param name="/ndt2d_step_size_y_" value="0.01"/>
-<param name="/ndt2d_step_size_theta_" value="0.01"/>

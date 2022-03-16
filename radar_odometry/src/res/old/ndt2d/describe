@@ -1,6 +1,0 @@
-ndt_2d.setMaximumIterations (60);
-ndt_2d.setTransformationEpsilon (0.00001);
-grid_center << 0, 0;
-grid_extent << 150, 150;
-grid_step << 7, 7;
-step_size << 0.01, 0.01, 0.01;

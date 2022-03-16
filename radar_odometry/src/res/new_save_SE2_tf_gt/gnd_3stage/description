@@ -1,7 +1,0 @@
-g12 => g7 => g3 
-     <param name="/ndt2d_max_it_" value="300"/>
-      <param name="/ndt2d_eps_" value="0.00001"/>
-
-      <param name="/ndt2d_step_size_x_" value="0.03"/>
-      <param name="/ndt2d_step_size_y_" value="0.03"/>
-      <param name="/ndt2d_step_size_theta_" value="0.03"/>
