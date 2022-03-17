@@ -6,7 +6,7 @@ The implementation of automotive radar scan matching proposed in ["A Normal Dist
 ## Radar Odometry on nuScences Dataset
 ![](img/automotive_ro.gif)
 - white: LiDAR points
-- yellow: Radar points
+- yellow: Radar submap
 - red path: ground truth odometry
 - blue path: ego-velocity integration ([Kellner et al.](https://ieeexplore.ieee.org/abstract/document/6907064))
 - green path: our result
