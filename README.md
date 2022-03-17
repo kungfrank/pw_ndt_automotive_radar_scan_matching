@@ -13,9 +13,8 @@ The implementation of automotive radar scan matching proposed in ["A Normal Dist
 
 ## Testing Environment
 ```
-Ubuntu 16
-ROS Kinetic
-OpenCV 3.3.1
+Ubuntu 16 / 18
+ROS Kinetic / Melodic
 C++14
 Python2.7
 ```
